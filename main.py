@@ -46,6 +46,9 @@ class AccountManager(Resource):
         return account, 201
 
 api.add_resource(AccountManager, "/account/<int:account_id>")
+@app.route('/')
+def index():
+    return ("Hello World!")
 
 if __name__ == '__main__':
     app.run(debug=True)
