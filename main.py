@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 from flask_sqlalchemy import SQLAlchemy
 
@@ -15,7 +15,7 @@ class AccountModel(db.Model):
     def __repr__(self):
         return f"{self.username} with ID {self.id} and password {self.password}"
 
-db.create_all()
+#db.create_all()
 
 account_put_args = reqparse.RequestParser()
 account_put_args.add_argument("username", type=str, help="Account username", required = True)
@@ -48,7 +48,7 @@ class AccountManager(Resource):
 api.add_resource(AccountManager, "/account/<int:account_id>")
 @app.route('/')
 def index():
-    return ("Hello World!")
+    return render_template("index.html")
 
 if __name__ == '__main__':
     app.run(debug=True)
