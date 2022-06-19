@@ -13,3 +13,6 @@ for i in range(len(data)):
 for i in range(len(data)):
     response = requests.get(BASE + f"account/{i}")
     print(response.json())
+
+response = requests.get(BASE + f"account/{0}")
+print(response.json())
