@@ -7,11 +7,11 @@ data = [{"username": "pahry182", "password" : "1234"},
 {"username": "pahry184", "password" : "123456"}]
 
 for i in range(len(data)):
-    response = requests.put(BASE + "account/" + str(i), json=data[i])
+    response = requests.post(BASE + "account/" + data[i]['username'], json=data[i])
     print(response.json())
 
 for i in range(len(data)):
-    response = requests.get(BASE + f"account/{i}")
+    response = requests.get(BASE + f"account/{data[i]['username']}")
     print(response.json())
 
 response = requests.get(BASE + f"account/{0}")

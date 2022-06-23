@@ -8,12 +8,11 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
 
 class AccountModel(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(64), nullable=False)
+    username = db.Column(db.String(64), primary_key=True, nullable=False)
     password = db.Column(db.String(32), nullable=False)
 
     def __repr__(self):
-        return f"{self.username} with ID {self.id} and password {self.password}"
+        return f"{self.username} with password {self.password}"
 
 #db.create_all()
 
@@ -22,30 +21,29 @@ account_put_args.add_argument("username", type=str, help="Account username", req
 account_put_args.add_argument("password", type=str, help="Account password", required = True)
 
 resource_fields = {
-    'id' : fields.Integer,
     'username' : fields.String,
     'password' : fields.String,
 }
 
 class AccountManager(Resource):
     @marshal_with(resource_fields)
-    def get(self, account_id):
-        result = AccountModel.query.filter_by(id=account_id).first()
+    def get(self, account_username):
+        result = AccountModel.query.filter_by(username=account_username).first()
         return result
 
     @marshal_with(resource_fields)
-    def put(self, account_id):
+    def post(self, account_username):
         args = account_put_args.parse_args()
-        result = AccountModel.query.filter_by(id=account_id).first()
+        result = AccountModel.query.filter_by(username=account_username).first()
         if result:
-            abort(409, message="Account id taken...")
+            abort(409, message="The username has already taken...")
 
-        account = AccountModel(id=account_id, username=args['username'], password=args['password'])
+        account = AccountModel(username=args['username'], password=args['password'])
         db.session.add(account)
         db.session.commit()
         return account, 201
 
-api.add_resource(AccountManager, "/account/<int:account_id>")
+api.add_resource(AccountManager, "/account/<string:account_username>")
 @app.route('/')
 def index():
     return render_template("index.html")
