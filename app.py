@@ -1,14 +1,20 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_cors import CORS
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 from flask.views import MethodView
 from flask_sqlalchemy import SQLAlchemy
+from flask import Response
 
 app = Flask(__name__)
 CORS(app)
 api = Api(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
+
+@current_app.before_request
+def basic_authentication():
+    if request.method.lower() == 'options':
+        return Response()
 
 class AccountModel(db.Model):
     username = db.Column(db.String(64), primary_key=True, nullable=False)
