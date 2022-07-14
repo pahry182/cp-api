@@ -26,7 +26,7 @@ class Tictactoe_score(db.Model):
     def __repr__(self):
         return f"{self.username} with password {self.tictactoe_score_easy}"
 
-#db.create_all()
+db.create_all()
 
 account_put_args = reqparse.RequestParser()
 account_put_args.add_argument("username", type=str, help="Account username", required = True)
