@@ -11,6 +11,7 @@ api = Api(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
 
+
 @current_app.before_request
 def basic_authentication():
     if request.method.lower() == 'options':
