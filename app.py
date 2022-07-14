@@ -5,16 +5,25 @@ from flask.views import MethodView
 from flask_sqlalchemy import SQLAlchemy
 from flask import Response
 
+def create_app():
+    app = Flask(__name__)
+
+    with app.app_context():
+        @current_app.before_request
+        def basic_authentication():
+            if request.method.lower() == 'options':
+                return Response()
+
+    return app
+
+
 app = Flask(__name__)
 CORS(app)
 api = Api(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
 
-@current_app.before_request
-def basic_authentication():
-    if request.method.lower() == 'options':
-        return Response()
+
 
 class AccountModel(db.Model):
     username = db.Column(db.String(64), primary_key=True, nullable=False)
