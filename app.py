@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, current_app, render_template, request
 from flask_cors import CORS
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 from flask.views import MethodView
@@ -10,7 +10,6 @@ CORS(app)
 api = Api(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
-
 
 @current_app.before_request
 def basic_authentication():
