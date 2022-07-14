@@ -26,7 +26,7 @@ class Tictactoe_score(db.Model):
     def __repr__(self):
         return f"{self.username} with password {self.tictactoe_score_easy}"
 
-db.create_all()
+#db.create_all()
 
 account_put_args = reqparse.RequestParser()
 account_put_args.add_argument("username", type=str, help="Account username", required = True)
@@ -71,7 +71,10 @@ class AccountManager(Resource):
 class ScoreManager(Resource):
     @marshal_with(resource_fields_tictactoe_score)
     def get(self, account_username):
-        result = Tictactoe_score.query.filter_by(username=account_username).first()
+        if account_username == "all":
+            result = Tictactoe_score.query.all()
+        else:
+            result = Tictactoe_score.query.filter_by(username=account_username).first()
         return result
 
     @marshal_with(resource_fields_tictactoe_score)

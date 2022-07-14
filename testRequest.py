@@ -1,3 +1,4 @@
+from ast import For
 import requests
 
 BASE = "http://127.0.0.1:5000/"
@@ -17,10 +18,17 @@ for i in range(len(data)):
 response = requests.get(BASE + f"account/{0}")
 print(response.json())
 
-score_data = [{'username': 'pahry182', 'tictactoe_score_easy' : 2 }]
+score_data = [{'username': 'pahry182', 'tictactoe_score_easy' : 2 },
+{'username': 'pahry183', 'tictactoe_score_easy' : 3 },
+{'username': 'pahry184', 'tictactoe_score_easy' : 2 }]
 
-response = requests.put(BASE + f"tictactoe/{score_data[0]['username']}", json=score_data[0])
-print(response.json())
+for i in range(len(score_data)):
+    response = requests.put(BASE + f"tictactoe/{score_data[i]['username']}", json=score_data[i])
+    print(response.json())
 
-response = requests.get(BASE + f"tictactoe/{score_data[0]['username']}")
+for i in range(len(score_data)):
+    response = requests.get(BASE + f"tictactoe/{score_data[i]['username']}")
+    print(response.json())
+
+response = requests.get(BASE + f"tictactoe/all")
 print(response.json())
