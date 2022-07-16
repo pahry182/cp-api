@@ -20,7 +20,8 @@ print(response.json())
 
 score_data = [{'username': 'pahry182', 'tictactoe_score_easy' : 2 },
 {'username': 'pahry183', 'tictactoe_score_easy' : 3 },
-{'username': 'pahry184', 'tictactoe_score_easy' : 2 }]
+{'username': 'pahry184', 'tictactoe_score_easy' : 2 },
+{'username' : 'telolet2',  'tictactoe_score_easy' : 19 }]
 
 for i in range(len(score_data)):
     response = requests.put(BASE + f"tictactoe/{score_data[i]['username']}", json=score_data[i])
